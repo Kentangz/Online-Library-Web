@@ -12,7 +12,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('admins', function (Blueprint $table) {
-            $table->id('id_admin');
+            $table->id();
             $table->string('image')->nullable();  // Untuk menyimpan gambar profil
             $table->string('nama');
             $table->string('email')->unique();
