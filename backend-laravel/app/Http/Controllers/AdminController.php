@@ -7,6 +7,7 @@ use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Response;
 
 class AdminController extends Controller
 {
@@ -72,7 +73,7 @@ class AdminController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'nama' => 'nullable|string',
+            'nama' => 'required|string',
             'email' => 'nullable|email',
             'password' => 'nullable|string|min:8',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
@@ -102,9 +103,13 @@ class AdminController extends Controller
 
             $admin->image = $imagePath;
         }
-
         if ($request->has('nama')) {
-            $admin->nama = $request->input('nama');
+            $$admin->nama = $request->input('nama');
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Warning: Nama is not filled in the form data'
+            ], Response::HTTP_BAD_REQUEST);
         }
 
         if ($request->has('email') && $request->input('email') !== null) {
@@ -116,30 +121,12 @@ class AdminController extends Controller
         }
 
         $admin->save();
-
-        return new AdminResource(true, 'Admin data updated successfully!', $admin);
     }
 
-    public function destroy($id)
+    private function deleteAdminImage($admin)
     {
-        $admin = Admin::find($id);
-
-        if (!$admin) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Admin not found'
-            ], 404);
-        }
-
         if ($admin->image) {
             Storage::delete('public/images/admins/' . basename($admin->image));
         }
-
-        $admin->delete();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Admin and image deleted successfully!',
-        ]);
     }
 }

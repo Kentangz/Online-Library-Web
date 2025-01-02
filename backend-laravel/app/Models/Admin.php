@@ -25,23 +25,21 @@ class Admin extends Model
         });
     }
 
-    // Accessor untuk kolom 'image' yang mengembalikan URL lengkap
+
     public function getImageAttribute($value)
     {
         if ($value) {
-            // Memastikan hanya satu 'storage/' yang ada
-            return url('storage/' . $value);  // Pastikan URL yang dikembalikan sudah benar
+            return url('storage/' . $value);  
         }
         return null;
     }
 
-    // Accessor untuk password (biasanya tidak perlu menambahkan ini)
     public function getPasswordAttribute($value)
     {
-        return $value; // Karena password sudah terenkripsi, cukup kembalikan value-nya
+        return $value;
     }
 
-    // Jika ingin menambahkan accessor atau mutator lain, misalnya untuk email atau nama
+
     public function getNamaAttribute($value)
     {
         return ucfirst($value);  // Menambahkan logika misalnya untuk kapitalisasi nama

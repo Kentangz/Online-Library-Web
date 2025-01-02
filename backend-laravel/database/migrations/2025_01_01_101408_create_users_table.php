@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id(); // Ini otomatis akan membuat kolom 'id' sebagai primary key
             $table->string('image')->nullable();
             $table->string('nama');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('password');
             $table->string('nomor_hp');
             $table->text('alamat');
