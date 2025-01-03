@@ -121,12 +121,30 @@ class AdminController extends Controller
         }
 
         $admin->save();
+
+        return new AdminResource(true, 'Admin data updated successfully!', $admin);
     }
 
-    private function deleteAdminImage($admin)
+    public function destroy($id)
     {
+        $admin = Admin::find($id);
+
+        if (!$admin) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Admin not found'
+            ], 404);
+        }
+
         if ($admin->image) {
             Storage::delete('public/images/admins/' . basename($admin->image));
         }
+
+        $admin->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Admin and image deleted successfully!',
+        ]);
     }
 }

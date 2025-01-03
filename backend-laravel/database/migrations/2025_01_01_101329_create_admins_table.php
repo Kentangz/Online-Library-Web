@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('image')->nullable();  // Untuk menyimpan gambar profil
             $table->string('nama');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('password');
             $table->timestamps();
         });

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id(); // Ini otomatis akan membuat kolom 'id' sebagai primary key
+            $table->id(); 
             $table->string('image')->nullable();
             $table->string('nama');
             $table->string('email');
