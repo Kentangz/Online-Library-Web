@@ -38,8 +38,17 @@ class Book extends Model
     // Relasi: Setiap buku memiliki satu kategori
     public function kategori()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'kategori_id', 'id_kategori'); // Sesuaikan dengan nama kolom di tabel categories
     }
+    
+    public function getImageAttribute($value)
+    {
+        if ($value) {
+            return asset('storage/' . $value); 
+        }
+        return null;
+    }
+
 
     /**
      * Accessor untuk judul buku (title case)
