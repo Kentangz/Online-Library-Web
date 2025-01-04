@@ -34,6 +34,11 @@ class Category extends Model
      * 
      * Mengubah nilai nama_kategori menjadi Title Case
      */
+    public function books()
+{
+    return $this->hasMany(Book::class);
+}
+
     public function getNamaKategoriAttribute($value)
     {
         return ucwords($value); // Mengubah ke Title Case
