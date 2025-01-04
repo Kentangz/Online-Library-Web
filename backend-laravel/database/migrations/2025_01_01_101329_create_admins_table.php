@@ -6,14 +6,11 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up()
     {
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
-            $table->string('image')->nullable();  // Untuk menyimpan gambar profil
+            $table->string('image')->nullable();
             $table->string('nama');
             $table->string('email');
             $table->string('password');
@@ -21,10 +18,6 @@ return new class extends Migration
         });
     }
     
-
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('admins');

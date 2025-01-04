@@ -7,18 +7,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class BookResource extends JsonResource
 {
-    // Define properti tambahan
     public $status;
     public $message;
-
-    /**
-     * Konstruktor untuk menginisialisasi status, message, dan resource
-     *
-     * @param mixed $status
-     * @param mixed $message
-     * @param mixed $resource
-     * @return void
-     */
+    
     public function __construct($status, $message, $resource)
     {
         parent::__construct($resource);
@@ -26,12 +17,6 @@ class BookResource extends JsonResource
         $this->message = $message;
     }
 
-    /**
-     * Transform the resource into an array.
-     *
-     * @param Request $request
-     * @return array
-     */
     public function toArray(Request $request): array
     {
         return [

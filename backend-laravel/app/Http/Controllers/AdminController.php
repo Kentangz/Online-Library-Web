@@ -17,6 +17,29 @@ class AdminController extends Controller
         return new AdminResource(true, 'Admin list retrieved successfully', $admins);
     }
 
+    
+    public function show($id)
+    {
+        if (!$id) {
+            return response()->json([
+                'success' => false,
+                'message' => 'ID not found. Please provide a valid ID.'
+            ], 400);
+        }
+
+        try {
+            $admin = Admin::findOrFail($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Admin with the given ID not found.'
+            ], 404);
+        }
+
+        return new AdminResource(true, 'Admin details retrieved successfully', $admin);
+    }
+
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -49,26 +72,6 @@ class AdminController extends Controller
         return new AdminResource(true, 'Admin added successfully', $admin);
     }
 
-    public function show($id)
-    {
-        if (!$id) {
-            return response()->json([
-                'success' => false,
-                'message' => 'ID not found. Please provide a valid ID.'
-            ], 400);
-        }
-
-        try {
-            $admin = Admin::findOrFail($id);
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Admin with the given ID not found.'
-            ], 404);
-        }
-
-        return new AdminResource(true, 'Admin details retrieved successfully', $admin);
-    }
 
     public function update(Request $request, $id)
     {
@@ -124,6 +127,7 @@ class AdminController extends Controller
 
         return new AdminResource(true, 'Admin data updated successfully!', $admin);
     }
+
 
     public function destroy($id)
     {

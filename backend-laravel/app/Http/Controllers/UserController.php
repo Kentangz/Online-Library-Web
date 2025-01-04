@@ -32,6 +32,7 @@ class UserController extends Controller
         return new UserResource(true, 'User found successfully', $user);
     }
 
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -67,6 +68,7 @@ class UserController extends Controller
 
         return new UserResource(true, 'User created successfully', $user);
     }
+
 
     public function update(Request $request, $id)
     {
@@ -137,6 +139,7 @@ class UserController extends Controller
     
         return new UserResource(true, 'User updated successfully', $user);
     }
+    
 
     public function destroy($id)
     {

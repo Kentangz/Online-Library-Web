@@ -8,23 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Admin extends Model
 {
     use HasFactory;
-
-    // Nama tabel yang digunakan oleh model ini
     protected $table = 'admins';
-
-    // Kolom yang bisa diisi secara massal (mass-assignment)
     protected $fillable = [
         'nama', 'email', 'password', 'image'
     ];
-
-    // Untuk memastikan bahwa password selalu terenkripsi
     protected static function booted()
     {
         static::creating(function ($admin) {
-            $admin->password = bcrypt($admin->password);  // Enkripsi password sebelum disimpan
+            $admin->password = bcrypt($admin->password);
         });
     }
-
 
     public function getImageAttribute($value)
     {
@@ -39,14 +32,13 @@ class Admin extends Model
         return $value;
     }
 
-
     public function getNamaAttribute($value)
     {
-        return ucfirst($value);  // Menambahkan logika misalnya untuk kapitalisasi nama
+        return ucfirst($value);
     }
 
     public function getEmailAttribute($value)
     {
-        return strtolower($value);  // Menjamin bahwa email disimpan dalam format lowercase
+        return strtolower($value);
     }
 }
