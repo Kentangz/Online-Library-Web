@@ -76,7 +76,7 @@ class BookController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'judul' => 'required|string|max:255',
+            'judul' => 'nullable|string|max:255',
             'kategori_id' => 'nullable|exists:categories,id_kategori',
             'penulis' => 'nullable|string|max:255',
             'penerbit' => 'nullable|string|max:255',
@@ -106,13 +106,8 @@ class BookController extends Controller
             $book->image = $imagePath;
         }
 
-        if ($request->has('judul')) {
+        if ($request->has('judul') && !is_null($request->judul)) {
             $book->judul = $request->input('judul');
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Judul is required',
-            ], 400);
         }
 
         if ($request->has('kategori_id') && $request->input('kategori_id') != null) {

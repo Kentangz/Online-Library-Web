@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Transaction;
 use App\Http\Resources\TransactionResource;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator; // Pastikan ini digunakan
+use Illuminate\Support\Facades\Validator;
 
 class TransactionController extends Controller
 {
@@ -14,7 +14,7 @@ class TransactionController extends Controller
         $transactions = Transaction::all();
         return new TransactionResource(true, 'Data transaksi ditemukan', $transactions);
     }
-
+    
 
     public function show($id)
     {
@@ -26,18 +26,17 @@ class TransactionController extends Controller
         return new TransactionResource(true, 'Data transaksi ditemukan', $transaction);
     }
 
+
     public function store(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
-            'id_user' => 'required|exists:users,id_user',  // Pastikan user ada
-            'id_buku' => 'required|exists:books,id_buku',  // Pastikan buku ada
+            'id_user' => 'required|exists:users,id_user',
+            'id_buku' => 'required|exists:books,id_buku',
             'tanggal_pinjam' => 'required|date',
-            'tanggal_kembali' => 'nullable|date|after:tanggal_pinjam',  // Jika ada tanggal kembali, harus setelah tanggal pinjam
+            'tanggal_kembali' => 'nullable|date|after:tanggal_pinjam',
             'status' => 'required|in:dipinjam,kembali,telat',
         ]);
 
-        // Jika validasi gagal, kembalikan respons dengan error
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
@@ -46,9 +45,6 @@ class TransactionController extends Controller
             ], 400);
         }
 
-        
-
-        // Membuat transaksi baru
         $transaction = Transaction::create([
             'id_user' => $request->id_user,
             'id_buku' => $request->id_buku,
@@ -59,7 +55,6 @@ class TransactionController extends Controller
 
         $transaction->load('book', 'user');
 
-        // Mengembalikan response dengan resource transaksi
         return new TransactionResource(true, 'Transaksi berhasil dibuat', $transaction);
     }
 
@@ -67,13 +62,11 @@ class TransactionController extends Controller
     public function update(Request $request, $id)
     {
         $transaction = Transaction::find($id);
-    
-        // Jika transaksi tidak ditemukan
+
         if (!$transaction) {
             return new TransactionResource(false, 'Transaksi tidak ditemukan', null);
         }
-    
-        // Validasi input
+
         $validator = Validator::make($request->all(), [
             'id_user' => 'nullable|exists:users,id_user',
             'id_buku' => 'nullable|exists:books,id_buku',
@@ -81,8 +74,7 @@ class TransactionController extends Controller
             'tanggal_kembali' => 'nullable|date|after:tanggal_pinjam',
             'status' => 'nullable|in:dipinjam,kembali,telat',
         ]);
-    
-        // Jika validasi gagal, kembalikan respons dengan error
+
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
@@ -90,8 +82,7 @@ class TransactionController extends Controller
                 'errors' => $validator->errors(),
             ], 400);
         }
-    
-        // Perbarui kolom manual
+
         if ($request->has('id_user') && !is_null($request->id_user)) {
             $transaction->id_user = $request->id_user;
         }
@@ -107,8 +98,7 @@ class TransactionController extends Controller
         if ($request->has('status') && !is_null($request->status)) {
             $transaction->status = $request->status;
         }
-    
-        // Simpan data hanya jika ada perubahan
+
         if (!$transaction->isDirty()) {
             return response()->json([
                 'success' => false,
@@ -118,32 +108,21 @@ class TransactionController extends Controller
 
         $transaction->load('book', 'user');
         $transaction->save();
-    
-        // Kembalikan respons sukses
+
         return new TransactionResource(true, 'Transaksi berhasil diperbarui', $transaction);
     }
-    
-    
 
-    /**
-     * Menghapus transaksi berdasarkan ID
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
         $transaction = Transaction::find($id);
 
-        // Jika transaksi tidak ditemukan
         if (!$transaction) {
             return new TransactionResource(false, 'Transaksi tidak ditemukan', null);
         }
 
-        // Menghapus transaksi
         $transaction->delete();
 
-        // Mengembalikan response sukses
         return new TransactionResource(true, 'Transaksi berhasil dihapus', null);
     }
 }
