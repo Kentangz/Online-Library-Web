@@ -2,13 +2,13 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CategoryResource extends JsonResource
+class FineResource extends JsonResource
 {
     public $status;
     public $message;
+    public $resource;
 
     public function __construct($status, $message, $resource)
     {
@@ -18,7 +18,7 @@ class CategoryResource extends JsonResource
     }
 
     
-    public function toArray(Request $request): array
+    public function toArray($request): array
     {
         return [
             'success' => $this->status,

@@ -18,16 +18,19 @@ class Category extends Model
         'nama_kategori', 
     ];
 
+
     public function books()
     {
         return $this->hasMany(Book::class);
     }
+
 
     public function getNamaKategoriAttribute($value)
     {
         return ucwords($value); 
     }
 
+    
     public function setNamaKategoriAttribute($value)
     {
         $this->attributes['nama_kategori'] = strtolower($value); 

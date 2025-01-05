@@ -9,15 +9,28 @@ class Fine extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'id_denda';
+
     protected $fillable = [
         'id_transaksi',
         'jumlah_denda',
         'status_denda',
     ];
 
-    // Relasi dengan tabel transaksi
+
+    protected $casts = [
+        'jumlah_denda' => 'float',
+    ];
+
+
     public function transaction()
     {
         return $this->belongsTo(Transaction::class, 'id_transaksi');
+    }
+
+    
+    public function updateFineStatus()
+    {
+        $this->update(['status_denda' => 'sudah dibayar']);
     }
 }

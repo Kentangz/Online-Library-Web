@@ -31,10 +31,12 @@ class User extends Authenticatable
         'updated_at' => 'datetime',
     ];
 
+
     public function getNamaAttribute($value)
     {
         return ucwords($value);
     }
+
 
     public function getImageAttribute($value)
     {
@@ -44,6 +46,7 @@ class User extends Authenticatable
         return null;
     }
 
+    
     public function getAlamatAttribute($value)
     {
         return trim($value);

@@ -12,12 +12,15 @@ class Admin extends Model
     protected $fillable = [
         'nama', 'email', 'password', 'image'
     ];
+
+
     protected static function booted()
     {
         static::creating(function ($admin) {
             $admin->password = bcrypt($admin->password);
         });
     }
+
 
     public function getImageAttribute($value)
     {
@@ -27,16 +30,19 @@ class Admin extends Model
         return null;
     }
 
+
     public function getPasswordAttribute($value)
     {
         return $value;
     }
+
 
     public function getNamaAttribute($value)
     {
         return ucfirst($value);
     }
 
+    
     public function getEmailAttribute($value)
     {
         return strtolower($value);

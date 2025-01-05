@@ -28,6 +28,7 @@ class Book extends Model
         return $this->belongsTo(Category::class, 'kategori_id', 'id_kategori'); 
     }
     
+
     public function getImageAttribute($value)
     {
         if ($value) {
@@ -36,21 +37,25 @@ class Book extends Model
         return null;
     }
 
+
     public function getJudulAttribute($value)
     {
         return ucwords($value);
     }
+
 
     public function getPenulisAttribute($value)
     {
         return ucwords($value);
     }
 
+
     public function getPenerbitAttribute($value)
     {
         return ucwords($value); 
     }
 
+    
     public function getStokAttribute($value)
     {
         return (int) $value;

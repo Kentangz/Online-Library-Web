@@ -14,7 +14,7 @@ class TransactionController extends Controller
         $transactions = Transaction::all();
         return new TransactionResource(true, 'Data transaksi ditemukan', $transactions);
     }
-    
+
 
     public function show($id)
     {
@@ -23,6 +23,7 @@ class TransactionController extends Controller
         if (!$transaction) {
             return new TransactionResource(false, 'Transaksi tidak ditemukan', null);
         }
+
         return new TransactionResource(true, 'Data transaksi ditemukan', $transaction);
     }
 
@@ -53,6 +54,7 @@ class TransactionController extends Controller
             'status' => $request->status,
         ]);
 
+        $transaction->createOrUpdateFine($transaction->id_transaksi);
         $transaction->load('book', 'user');
 
         return new TransactionResource(true, 'Transaksi berhasil dibuat', $transaction);
@@ -106,13 +108,14 @@ class TransactionController extends Controller
             ], 400);
         }
 
+        $transaction->createOrUpdateFine($transaction->id_transaksi);
         $transaction->load('book', 'user');
         $transaction->save();
 
         return new TransactionResource(true, 'Transaksi berhasil diperbarui', $transaction);
     }
 
-
+    
     public function destroy($id)
     {
         $transaction = Transaction::find($id);

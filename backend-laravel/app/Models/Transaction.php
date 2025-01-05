@@ -9,6 +9,7 @@ use Carbon\Carbon;
 class Transaction extends Model
 {
     use HasFactory;
+
     protected $primaryKey = 'id_transaksi';
 
     protected $fillable = [
@@ -19,20 +20,24 @@ class Transaction extends Model
         'status',
     ];
 
+
     public function book()
     {
         return $this->belongsTo(Book::class, 'id_buku', 'id_buku');
     }
+
 
     public function user()
     {
         return $this->belongsTo(User::class, 'id_user', 'id_user');
     }
 
+
     public function fines()
     {
         return $this->hasMany(Fine::class, 'id_transaksi');
     }
+
 
     public function calculateFine()
     {
@@ -49,9 +54,12 @@ class Transaction extends Model
         return 0;
     }
 
-    public function createFine()
+    
+    public function createOrUpdateFine()
     {
-        if ($this->status === 'telat') {
+        $fine = $this->fines()->first();
+
+        if (!$fine && $this->status === 'telat') {
             $fineAmount = $this->calculateFine();
 
             if ($fineAmount > 0) {
@@ -60,6 +68,17 @@ class Transaction extends Model
                     'status_denda' => 'belum dibayar',
                 ]);
             }
+        } else if ($fine && $this->status === 'telat') {
+            $fineAmount = $this->calculateFine();
+
+            if ($fineAmount > 0) {
+                $fine->update([
+                    'jumlah_denda' => $fineAmount,
+                    'status_denda' => 'belum dibayar',
+                ]);
+            }
+        } else if ($fine && $this->status !== 'telat') {
+            $fine->delete();
         }
     }
 }
