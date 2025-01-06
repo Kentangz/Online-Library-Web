@@ -1,4 +1,4 @@
 # Online-Library-Web
 
-for educational 
-please use credit 
+for educational,
+please using credit :)
