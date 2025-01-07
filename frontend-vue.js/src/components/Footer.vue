@@ -56,8 +56,8 @@
     background-color: #343a40;
     color: white;
     padding-top: 2rem;
-    border-top-left-radius: 20%;
-    border-top-right-radius: 20%;
+    border-top-left-radius: 10%;
+    border-top-right-radius: 10%;
   }
   
   .footer-slide {
