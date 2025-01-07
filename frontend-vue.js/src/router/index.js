@@ -15,17 +15,17 @@ const routes = [
 {
     path: '/about-us',
     name: 'AboutUs',
-    component: () => import('../views/AboutUs.vue'),
+    component: () => import('../views/UsefulLinks/AboutUs.vue'),
 },
 {
     path: '/privacy-policy',
     name: 'PrivacyPolicy',
-    component: () => import('../views/PrivacyPolicy.vue'),
+    component: () => import('../views/UsefulLinks/PrivacyPolicy.vue'),
 },
 {
   path: '/terms-of-service',
   name: 'TermsOfService',
-  component: () => import('../views/TermsOfService.vue'),
+  component: () => import('../views/UsefulLinks/TermsOfService.vue'),
 }
 ];
 
