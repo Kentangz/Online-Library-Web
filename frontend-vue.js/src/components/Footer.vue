@@ -12,8 +12,7 @@
             <h5 class="text-uppercase mb-3">Quick Links</h5>
             <ul class="list-unstyled">
               <li class="mb-2"><router-link to="/about-us" class="text-white quicklink">About Us</router-link></li>
-              <li class="mb-2"><router-link to="/privacy-policy" class="text-white quicklink">Privacy Policy</router-link></li>
-              <li class="mb-2"><router-link to="/terms-of-service" class="text-white quicklink">Terms of Service</router-link></li>
+              <li class="mb-2"><router-link to="/FAQ" class="text-white quicklink">FAQ</router-link></li>
             </ul>
           </div>
   

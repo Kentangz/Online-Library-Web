@@ -18,15 +18,10 @@ const routes = [
     component: () => import('../views/UsefulLinks/AboutUs.vue'),
 },
 {
-    path: '/privacy-policy',
-    name: 'PrivacyPolicy',
-    component: () => import('../views/UsefulLinks/PrivacyPolicy.vue'),
+    path: '/FAQ',
+    name: 'FaQ',
+    component: () => import('../views/UsefulLinks/FaQ.vue'),
 },
-{
-  path: '/terms-of-service',
-  name: 'TermsOfService',
-  component: () => import('../views/UsefulLinks/TermsOfService.vue'),
-}
 ];
 
 const router = createRouter({
