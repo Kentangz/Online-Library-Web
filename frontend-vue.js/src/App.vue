@@ -28,11 +28,12 @@ body {
   padding: 0;
 }
 
+
 #app {
   background-image: url('../src/assets/bgApp.jpg');
   background-size: 300% 300%;
   background-position: 0% 50%;
-  animation: imageMovement 300s linear infinite;
+  animation: imageMovement 420s linear infinite;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
