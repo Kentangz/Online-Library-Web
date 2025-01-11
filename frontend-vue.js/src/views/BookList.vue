@@ -1,102 +1,69 @@
 <template>
     <div class="book-list-container">
       <div class="container">
-        <!-- Title and Search Bar -->
         <h2 class="section-title text-center mb-4">Discover Your Next Favorite Book</h2>
   
-        <!-- Search and Category Filter -->
-        <div class="row mb-4 justify-content-center align-items-center">
-          <!-- Search Bar -->
-          <div class="col-md-6 col-12 mb-3">
-            <div class="input-group search-container">
-              <input
-                v-model="searchQuery"
-                type="text"
-                class="form-control search-input"
-                placeholder="Search books by title or author"
-                @input="onSearchInput"
-              />
-              <button
-                v-if="searchQuery"
-                class="btn btn-outline-secondary"
-                @click="clearSearch"
-              >
-                <i class="fas fa-times"></i>
-              </button>
-            </div>
-            <!-- Search Suggestions Dropdown -->
-            <div v-if="suggestions.length" class="search-suggestions">
-              <ul>
-                <li v-for="(suggestion, index) in suggestions" :key="index" @click="selectSuggestion(suggestion)">
-                  {{ suggestion }}
-                </li>
-              </ul>
-            </div>
-          </div>
-  
-          <!-- Category Dropdown Filter -->
-          <div class="col-md-4 col-12">
-            <div class="dropdown category-dropdown">
-              <button class="btn btn-primary dropdown-toggle w-100" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                {{ selectedCategory ? selectedCategory : 'Select Category' }}
-              </button>
-              <ul class="dropdown-menu w-100" aria-labelledby="categoryDropdown">
-                <li v-for="category in categories" :key="category">
-                  <a class="dropdown-item" href="#" @click.prevent="filterByCategory(category)">
-                    {{ category }}
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#" @click.prevent="filterByCategory('')">
-                    All Categories
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
+        <!-- Search and Filter -->
+        <div class="row mb-4 justify-content-center align-items-center text-center">
+          <SearchBar
+            :searchQuery="searchQuery"
+            :suggestions="suggestions"
+            :showSuggestions="showSuggestions"
+            @update:searchQuery="updateSearchQuery"
+            @search-input="onSearchInput"
+            @clear-search="clearSearch"
+            @select-suggestion="selectSuggestion"
+          />
+          <CategoryFilter
+            :categories="categories"
+            :selectedCategory="selectedCategory"
+            @filter-category="filterByCategory"
+          />
         </div>
   
         <!-- Book List -->
         <div class="row">
-          <div v-for="book in filteredBooks" :key="book.id" class="col-lg-4 col-md-6 mb-4">
-            <div class="card shadow-sm book-card">
-              <img :src="book.coverImage" :alt="book.title" class="card-img-top book-cover" />
-              <div class="card-body">
-                <h5 class="card-title">{{ book.title }}</h5>
-                <p class="card-text">{{ book.description }}</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <button class="btn btn-success btn-sm" @click="borrowBook(book.id)">
-                    Borrow
-                  </button>
-                  <span class="badge bg-secondary">{{ book.category }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <BookCard
+            v-for="book in filteredBooks"
+            :key="book.id"
+            :book="book"
+          />
         </div>
   
-        <!-- No Books Found Message -->
+        <!-- No Books Found -->
         <div v-if="filteredBooks.length === 0" class="text-center mt-4">
-          <p>No books found matching your search or filter criteria.</p>
+          <p class="text-muted">
+            No books found matching your search or filter criteria.
+          </p>
         </div>
       </div>
     </div>
   </template>
   
   <script>
+  import SearchBar from "../components/book-list-section/SearchBar.vue";
+  import CategoryFilter from "../components/book-list-section/CategoryFilter.vue";
+  import BookCard from "../components/book-list-section/BookCard.vue";
+  
   export default {
     name: "BookList",
+    components: {
+      SearchBar,
+      CategoryFilter,
+      BookCard
+    },
     data() {
       return {
         searchQuery: "",
         suggestions: [],
+        showSuggestions: false,
         selectedCategory: "",
         books: [
           {
             id: 1,
             title: "The Great Gatsby",
             description: "A novel about the American dream, set in the 1920s.",
-            coverImage: "https://example.com/gatsby.jpg",
+            coverImage: "src/assets/featured-book/hujan.jpg",
             category: "Fiction",
           },
           {
@@ -120,44 +87,55 @@
             coverImage: "https://example.com/pride.jpg",
             category: "Romance",
           },
-          // Additional books...
         ],
-        categories: ["Fiction", "Classic", "Dystopian", "Romance"],
+        categories: [
+          "Fiction",
+          "Classic",
+          "Dystopian",
+          "Romance",
+          "Science Fiction",
+          "Fantasy",
+        ],
       };
     },
     computed: {
       filteredBooks() {
-        return this.books
-          .filter(book => {
-            const matchesSearch = book.title.toLowerCase().includes(this.searchQuery.toLowerCase()) || book.description.toLowerCase().includes(this.searchQuery.toLowerCase());
-            const matchesCategory = this.selectedCategory ? book.category === this.selectedCategory : true;
-            return matchesSearch && matchesCategory;
-          });
+        return this.books.filter((book) => {
+          const matchesSearch =
+            book.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+            book.description.toLowerCase().includes(this.searchQuery.toLowerCase());
+          const matchesCategory = this.selectedCategory
+            ? this.selectedCategory === "all" || book.category === this.selectedCategory
+            : true;
+          return matchesSearch && matchesCategory;
+        });
       },
     },
     methods: {
-      borrowBook(bookId) {
-        alert(`You have borrowed the book with ID: ${bookId}`);
+      updateSearchQuery(query) {
+        this.searchQuery = query;
       },
-      filterByCategory(category) {
-        this.selectedCategory = category;
-      },
-      clearSearch() {
-        this.searchQuery = "";
-        this.suggestions = [];
-      },
-      onSearchInput() {
-        if (this.searchQuery.length > 2) {
+      onSearchInput(query) {
+        if (query.length > 2) {
           this.suggestions = this.books
-            .filter(book => book.title.toLowerCase().includes(this.searchQuery.toLowerCase()))
-            .map(book => book.title);
+            .filter((book) => book.title.toLowerCase().includes(query.toLowerCase()))
+            .map((book) => book.title);
         } else {
           this.suggestions = [];
         }
       },
+      clearSearch() {
+        this.searchQuery = "";
+        this.suggestions = [];
+        this.showSuggestions = false;
+      },
       selectSuggestion(suggestion) {
         this.searchQuery = suggestion;
         this.suggestions = [];
+        this.showSuggestions = false;
+      },
+      filterByCategory(category) {
+        this.selectedCategory = category;
       },
     },
   };
@@ -165,143 +143,107 @@
   
   <style scoped>
   .book-list-container {
-    background-color: #f9f9f9;
+    position: relative;
+    background: url('src/assets/book-list_background.jpg') no-repeat center center fixed;
+    background-size: cover; /* Agar gambar menutupi seluruh area */
     padding: 4rem 0;
+    font-family: "Arial", sans-serif;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    color: #fff; /* Warna teks menjadi putih untuk kontras */
+  }
+  
+  .book-list-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+    backdrop-filter: blur(10px); /* Efek blur pada gambar */
+    z-index: 1;
+  }
+  
+  .container {
+    position: relative;
+    z-index: 2; /* Pastikan konten tetap di atas overlay */
   }
   
   .section-title {
     font-size: 2.5rem;
     font-weight: 700;
-    color: #333;
+    color: #ffffff; /* Warna teks lebih cerah untuk kontras */
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
   
-  .search-container {
-    position: relative;
-  }
-  
-  .search-input {
-    padding: 0.8rem 1rem;
-    border-radius: 5px;
-    font-size: 1rem;
-    border: 2px solid #007bff;
-  }
-  
-  .search-input:focus {
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-  }
-  
-  .search-suggestions {
-    position: absolute;
-    background-color: white;
-    width: 100%;
-    max-height: 150px;
-    overflow-y: auto;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    z-index: 1000;
-  }
-  
-  .search-suggestions ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .search-suggestions li {
-    padding: 0.5rem;
-    cursor: pointer;
-  }
-  
-  .search-suggestions li:hover {
-    background-color: #f1f1f1;
-  }
-  
-  .category-dropdown {
-    position: relative;
-  }
-  
-  .dropdown-menu {
-    width: 100%;
-  }
-  
-  .book-card {
-    border-radius: 15px;
-    overflow: hidden;
-    transition: transform 0.3s ease-in-out;
-    border: none;
-  }
-  
-  .book-card:hover {
-    transform: translateY(-10px);
-  }
-  
-  .book-cover {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .card-title {
-    font-size: 1.25rem;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .card-text {
-    font-size: 1rem;
-    color: #666;
-    margin-bottom: 1rem;
-  }
-  
-  .borrow-btn {
-    background-color: #28a745;
-    color: white;
-    border-radius: 5px;
-    padding: 0.5rem 1rem;
-    transition: background-color 0.3s;
-  }
-  
-  .borrow-btn:hover {
-    background-color: #218838;
-  }
-  
-  .badge {
-    font-size: 0.85rem;
-    padding: 0.4rem 0.6rem;
-    background-color: #6c757d;
-    color: white;
-    border-radius: 10px;
+  .row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
   }
   
   .text-center {
-    font-size: 1.2rem;
-    color: #666;
-    margin-top: 2rem;
+    text-align: center;
   }
   
-  .btn-outline-secondary {
-    border-color: #007bff;
+  .book-list-container .row {
+    gap: 2rem;
   }
   
-  .dropdown-toggle {
-    width: 100%;
+  /* Search bar styles */
+  .search-bar-container {
+    margin-bottom: 2rem;
+  }
+  
+  /* Category filter styling */
+  .category-filter-container {
+    margin-bottom: 2rem;
+  }
+  
+  /* Book Card Styles */
+  .book-card {
+    background-color: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .book-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  }
+  
+  .book-card img {
+    height: 250px;
+    object-fit: cover;
+    border-bottom: 2px solid #ddd;
+  }
+  
+  .book-card .card-body {
+    padding: 1.5rem;
+  }
+  
+  .book-card .card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+  
+  .book-card .card-text {
     font-size: 1rem;
+    color: #6c757d;
   }
   
-  .dropdown-item {
-    cursor: pointer;
-  }
-  
-  .dropdown-item:hover {
+  .book-card .badge {
     background-color: #007bff;
     color: white;
   }
   
-  @media (max-width: 768px) {
-    .search-container {
-      margin-bottom: 1rem;
-    }
+  .text-muted {
+    font-style: italic;
+    color: #6c757d;
   }
   </style>
   
