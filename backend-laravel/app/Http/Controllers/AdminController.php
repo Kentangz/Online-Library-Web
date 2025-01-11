@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -151,4 +152,34 @@ class AdminController extends Controller
             'message' => 'Admin and image deleted successfully!',
         ]);
     }
+
+        // Method login
+        public function login(Request $request)
+        {
+            // Validasi input email dan password
+            $validator = Validator::make($request->all(), [
+                'email' => 'required|email',
+                'password' => 'required|string',
+            ]);
+    
+            if ($validator->fails()) {
+                return response()->json([
+                    'message' => 'Validation failed',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+    
+            // Mencari admin berdasarkan email
+            $admin = Admin::where('email', $request->email)->first();
+    
+            // Jika admin tidak ditemukan atau password tidak cocok
+            if (!$admin || !Hash::check($request->password, $admin->password)) {
+                return response()->json([
+                    'message' => 'Invalid credentials'
+                ], 401);
+            }
+    
+            // Jika login berhasil
+            return new AdminResource(true, 'Login successful', $admin);
+        }
 }
