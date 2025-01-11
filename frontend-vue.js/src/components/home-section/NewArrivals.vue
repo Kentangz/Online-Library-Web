@@ -28,7 +28,9 @@
     },
     methods: {
       goToBooks() {
-        this.$router.push("/book-list");
+        this.$router.push("/book-list").then(() => {
+          window.scrollTo(0, 0);
+        });
       },
     },
   };
