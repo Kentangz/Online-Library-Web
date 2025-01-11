@@ -23,9 +23,9 @@
     data() {
       return {
         featuredBooks: [
-          { id: 1, title: "The Great Gatsby", author: "F. Scott Fitzgerald", genre: "Classic", image: "/path/to/great-gatsby.jpg" },
-          { id: 2, title: "1984", author: "George Orwell", genre: "Dystopian", image: "/path/to/1984.jpg" },
-          { id: 3, title: "Moby Dick", author: "Herman Melville", genre: "Adventure", image: "/path/to/moby-dick.jpg" },
+          { id: 1, title: "The Great Gatsby", author: "F. Scott Fitzgerald", genre: "Classic", image: "/src/assets/featured-book/hujan.jpg" },
+          { id: 2, title: "1984", author: "George Orwell", genre: "Dystopian", image: "/src/assets/featured-book/pulang.jpg" },
+          { id: 3, title: "Moby Dick", author: "Herman Melville", genre: "Adventure", image: "/src/assets/featured-book/soul.jpg" },
           // Add more books as needed
         ],
       };

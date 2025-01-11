@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- Hero Section -->
     <div class="hero-section">
       <div class="container">
         <h1 class="hero-title">Welcome to Online Library</h1>
@@ -13,7 +14,7 @@
       </div>
     </div>
 
-    <!-- Section AboutLibrary -->
+    <!-- About Library Section -->
     <div ref="aboutLibrarySection" class="about-library-section">
       <AboutLibrary />
     </div>
@@ -22,22 +23,57 @@
     <div ref="featuredBooksSection" class="featured-books-section">
       <FeaturedBooks />
     </div>
+
+    <!-- New Arrivals Section -->
+    <div ref="newArrivalsSection" class="new-arrivals-section">
+      <NewArrivals />
+    </div>
+
+    <!-- How It Works Section -->
+    <div ref="howItWorksSection" class="how-it-works-section">
+      <HowItWorks />
+    </div>
+
+    <!-- Testimonials Section -->
+    <div ref="testimonialsSection" class="testimonials-section">
+      <Testimonials />
+    </div>
+
+    <!-- Benefits Section -->
+    <div ref="benefitsSection" class="benefits-section">
+      <Benefits />
+    </div>
+
+    <!-- Call to Action Section -->
+    <div ref="callToActionSection" class="call-to-action-section">
+      <CallToAction />
+    </div>
   </div>
 </template>
 
 <script>
-// Import AboutLibrary and FeaturedBooks
-import AboutLibrary from "../components/home-section/AboutLibrary.vue"; 
+// Import komponen yang diperlukan
+import AboutLibrary from "../components/home-section/AboutLibrary.vue";
 import FeaturedBooks from "../components/home-section/FeaturedBooks.vue";
+import NewArrivals from "../components/home-section/NewArrivals.vue";
+import HowItWorks from "../components/home-section/HowItWorks.vue";
+import Testimonials from "../components/home-section/Testimonials.vue";
+import Benefits from "../components/home-section/Benefits.vue";
+import CallToAction from "../components/home-section/CallToAction.vue";
 
 export default {
   name: "Home",
   components: {
     AboutLibrary,
     FeaturedBooks,
+    NewArrivals,
+    HowItWorks,
+    Testimonials,
+    Benefits,
+    CallToAction,
   },
   methods: {
-    // Fungsi untuk menggulir ke AboutLibrary section
+    // Fungsi untuk menggulir ke bagian AboutLibrary
     goToAboutLibrary() {
       this.$refs.aboutLibrarySection.scrollIntoView({
         behavior: "smooth", // Animasi smooth scroll
@@ -52,6 +88,7 @@ export default {
 </script>
 
 <style scoped>
+/* Tambahan dan penyesuaian sesuai kebutuhan */
 .hero-section {
   height: 50vh;
   background-image: url("src/assets/home/home-section.jpg"); /* Replace with your image */

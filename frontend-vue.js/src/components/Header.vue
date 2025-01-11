@@ -1,28 +1,34 @@
 <template>
-    <header>
-      <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
-        <div class="container d-flex justify-content-center">
-          <router-link to="/" class="navbar-brand d-flex align-items-center">
-            <img src="../assets/logo.png" alt="Online Library Logo" class="logo me-2" />
-            <span class="fw-bold text-light">Online Library</span>
-          </router-link>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-              <li class="nav-item">
-                <router-link to="/" class="nav-link text-light" :class="{ 'active-link': $route.path === '/' }">Home</router-link>
-              </li>
-              <li class="nav-item">
-                <router-link to="/login" class="nav-link text-light" :class="{ 'active-link': $route.path === '/login' }">Login</router-link>
-              </li>
-            </ul>
-          </div>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
+      <div class="container d-flex justify-content-center">
+        <a href="/" class="navbar-brand d-flex align-items-center">
+          <img src="../assets/logo.png" alt="Online Library Logo" class="logo me-2" />
+          <span class="fw-bold text-light">Online Library</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a href="/" class="nav-link text-light">Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="/book-list" class="nav-link text-light">Book List</a>
+            </li>
+            <li class="nav-item">
+              <a href="/profile" class="nav-link text-light">Profile</a>
+            </li>
+          </ul>
         </div>
-      </nav>
-    </header>
-  </template>
+      </div>
+    </nav>
+  </header>
+</template>
+
+
+
   
   <script>
   export default {
