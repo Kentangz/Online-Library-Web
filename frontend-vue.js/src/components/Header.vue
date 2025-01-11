@@ -18,7 +18,7 @@
               <a href="/book-list" class="nav-link text-light">Book List</a>
             </li>
             <li class="nav-item">
-              <a href="/profile" class="nav-link text-light">Profile</a>
+              <a href="/sign-in" class="nav-link text-light">Profile</a>
             </li>
           </ul>
         </div>
