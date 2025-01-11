@@ -13,15 +13,6 @@ class Admin extends Model
         'nama', 'email', 'password', 'image'
     ];
 
-
-    protected static function booted()
-    {
-        static::creating(function ($admin) {
-            $admin->password = bcrypt($admin->password);
-        });
-    }
-
-
     public function getImageAttribute($value)
     {
         if ($value) {

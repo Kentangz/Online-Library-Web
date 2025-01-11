@@ -10,7 +10,7 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\FineController;
 
 // Route untuk login admin
-Route::post('/login', [AdminController::class, 'login']);
+Route::post('/admin/login', [AdminController::class, 'login']);
 
 // Route lainnya dengan apiResource
 Route::apiResource('/admin', AdminController::class);  
