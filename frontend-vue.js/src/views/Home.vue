@@ -9,7 +9,7 @@
         </p>
         <div class="button-group">
           <button class="btn primary" @click="goToAboutLibrary">Explore Now</button>
-          <button class="btn secondary" @click="goToSignUp">Sign Up</button>
+          <button class="btn secondary" @click="goToSignUp">Sign in</button>
         </div>
       </div>
     </div>
@@ -53,13 +53,13 @@
 
 <script>
 // Import komponen yang diperlukan
-import AboutLibrary from "../components/home-section/AboutLibrary.vue";
-import FeaturedBooks from "../components/home-section/FeaturedBooks.vue";
-import NewArrivals from "../components/home-section/NewArrivals.vue";
-import HowItWorks from "../components/home-section/HowItWorks.vue";
-import Testimonials from "../components/home-section/Testimonials.vue";
-import Benefits from "../components/home-section/Benefits.vue";
-import CallToAction from "../components/home-section/CallToAction.vue";
+import AboutLibrary from "./home-section/AboutLibrary.vue";
+import FeaturedBooks from "./home-section/FeaturedBooks.vue";
+import NewArrivals from "./home-section/NewArrivals.vue";
+import HowItWorks from "./home-section/HowItWorks.vue";
+import Testimonials from "./home-section/Testimonials.vue";
+import Benefits from "./home-section/Benefits.vue";
+import CallToAction from "./home-section/CallToAction.vue";
 
 export default {
   name: "Home",
@@ -81,7 +81,7 @@ export default {
       });
     },
     goToSignUp() {
-      this.$router.push("/signup");
+      this.$router.push("/sign-in");
     },
   },
 };
