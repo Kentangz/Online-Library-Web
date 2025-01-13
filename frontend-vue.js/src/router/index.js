@@ -57,7 +57,7 @@ const routes = [
   {
     path: '/dashboard-admin/category-list',
     name: 'CategoryListAdmin',
-    component: () => import('../views/Dashboard_Admin/BookCategory.vue'),
+    component: () => import('../views/Dashboard_Admin/Manage_Category/BookCategory.vue'),
   },
   {
     path: '/dashboard-admin/transaction',
