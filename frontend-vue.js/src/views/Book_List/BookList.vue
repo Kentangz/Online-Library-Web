@@ -92,6 +92,7 @@ export default {
   },
   methods: {
     async fetchBooks() {
+      this.loading = true;
       try {
         const response = await Api.get("/book");
         if (response.data && Array.isArray(response.data)) {

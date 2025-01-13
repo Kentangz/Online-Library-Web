@@ -38,8 +38,21 @@ const routes = [
   {
     path: '/dashboard-admin/book-list',
     name: 'BookListAdmin',
-    component: () => import('../views/Dashboard_Admin/Book.vue'),
+    component: () => import('../views/Dashboard_Admin/Manage_Book/Book.vue'),
   },
+
+  {
+    path: '/dashboard-admin/book-list/add-book',
+    name: 'AddBookAdmin',
+    component: () => import('../views/Dashboard_Admin/Manage_Book/AddBook.vue'),
+  },
+
+  {
+    path: '/dashboard-admin/book-list/edit-book/:id',
+    name: 'EditBookAdmin',
+    component: () => import('../views/Dashboard_Admin/Manage_Book/EditBook.vue'),
+  },
+  
 
   {
     path: '/dashboard-admin/category-list',
