@@ -100,19 +100,22 @@ export default {
     },
   },
   methods: {
-    // Ambil data buku
+    // Ambil data buku dan urutkan berdasarkan updated_at
     async fetchBooks() {
       this.loading = true;
       try {
         const response = await api.get("/book");
         if (response.data && Array.isArray(response.data)) {
-          this.books = response.data.map((item) => {
-            const category = item.data.kategori ? item.data.kategori.data : null;
-            return {
-              ...item.data,
-              kategori: category ? category.nama_kategori : "Unknown",
-            };
-          });
+          // Mapping data buku dan sorting berdasarkan updated_at
+          this.books = response.data
+            .map((item) => {
+              const category = item.data.kategori ? item.data.kategori.data : null;
+              return {
+                ...item.data,
+                kategori: category ? category.nama_kategori : "Unknown",
+              };
+            })
+            .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at)); // Sort descending by updated_at
         } else {
           throw new Error("Data buku tidak ditemukan");
         }

@@ -86,7 +86,14 @@ export default {
       this.loading = true;
       try {
         const response = await api.get("/category");
-        this.categories = response.data.data;
+        if (response.data && Array.isArray(response.data.data)) {
+          // Sorting kategori berdasarkan updated_at secara descending
+          this.categories = response.data.data.sort(
+            (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
+          );
+        } else {
+          throw new Error("Data kategori tidak ditemukan");
+        }
       } catch (error) {
         console.error("Error fetching categories:", error);
       } finally {
