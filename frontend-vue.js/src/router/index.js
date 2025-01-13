@@ -23,7 +23,7 @@ const routes = [
   },
 
   {
-    path: '/book-list/detail-book/:id',  // Menambahkan parameter :id
+    path: '/book-list/detail-book/:id',
     name: 'DetailBook',
     component: () => import('../views/Book_List/Detail_Book.vue'),
   },
@@ -59,6 +59,20 @@ const routes = [
     name: 'CategoryListAdmin',
     component: () => import('../views/Dashboard_Admin/Manage_Category/BookCategory.vue'),
   },
+
+  {
+    path: '/dashboard-admin/category-list/add-category',
+    name: 'AddBookCategoryAdmin',
+    component: () => import('../views/Dashboard_Admin/Manage_Category/AddCategory.vue'),
+  },
+
+  {
+    path: '/dashboard-admin/category-list/edit-category/:id',
+    name: 'EditCategoryBookAdmin',
+    component: () => import('../views/Dashboard_Admin/Manage_Category/EditBookCategory.vue'),
+  },
+
+
   {
     path: '/dashboard-admin/transaction',
     name: 'TransactionAdmin',
