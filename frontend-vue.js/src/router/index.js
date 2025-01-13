@@ -19,8 +19,16 @@ const routes = [
   {
     path: '/book-list',
     name: 'BookList',
-    component: () => import('../views/BookList.vue'),
+    component: () => import('../views/Book_List/BookList.vue'),
   },
+
+  {
+    path: '/book-list/detail-book/:id',  // Menambahkan parameter :id
+    name: 'DetailBook',
+    component: () => import('../views/Book_List/Detail_Book.vue'),
+  },
+  
+
   {
     path: '/dashboard-admin',
     name: 'DashboardAdmin',
