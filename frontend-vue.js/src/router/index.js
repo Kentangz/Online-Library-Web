@@ -89,7 +89,17 @@ const routes = [
   {
     path: '/dashboard-admin/fine',
     name: 'FineAdmin',
-    component: () => import('../views/Dashboard_Admin/fine.vue'),
+    component: () => import('../views/Dashboard_Admin/Manage_Fine/Fine.vue'),
+  },
+  {
+    path: '/dashboard-admin/fine',
+    name: 'AddFineAdmin',
+    component: () => import('../views/Dashboard_Admin/Manage_Fine/Fine.vue'),
+  },
+  {
+    path: '/dashboard-admin/fine',
+    name: 'EditFineAdmin',
+    component: () => import('../views/Dashboard_Admin/Manage_Fine/Fine.vue'),
   },
   /**admin */
 
