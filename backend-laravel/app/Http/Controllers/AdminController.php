@@ -45,7 +45,7 @@ class AdminController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nama' => 'required|string',
-            'email' => 'required|email',
+            'email' => 'required|string|email|unique:admins,email',
             'password' => 'required|string|min:8',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);

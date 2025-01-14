@@ -38,7 +38,7 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nama' => 'required|string',
-            'email' => 'required|string',
+            'email' => 'required|string|email|unique:users,email',
             'password' => 'required|string|min:8',
             'nomor_hp' => 'required|string',
             'alamat' => 'nullable|string',
@@ -163,7 +163,7 @@ class UserController extends Controller
             'message' => 'User deleted successfully'
         ], Response::HTTP_OK);
     }
-    
+
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [

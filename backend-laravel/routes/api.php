@@ -12,6 +12,8 @@ use App\Http\Controllers\FineController;
 // Route untuk login admin
 Route::post('/admin/login', [AdminController::class, 'login']);
 Route::post('/user/login', [UserController::class, 'login']);
+Route::post('/user/register', [UserController::class, 'store']);
+
 
 // Route lainnya dengan apiResource
 Route::apiResource('/admin', AdminController::class);  
