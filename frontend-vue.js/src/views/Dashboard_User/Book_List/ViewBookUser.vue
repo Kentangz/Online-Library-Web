@@ -84,7 +84,7 @@
         }
       },
       borrowBook(bookId) {
-        alert(`Borrowing Book ID: ${bookId}`);
+        this.$router.push({ name: 'BorrowBookUser', params: { id: bookId } });
       },
     },
   };

@@ -46,12 +46,10 @@ export default {
     },
   },
   methods: {
-    borrowBook(bookId) {
-      alert(`You have borrowed the book with ID: ${bookId}`);
-      this.$router.push({ name: 'DetailBook', params: { id: bookId } });
+    borrowBook() {
+      this.$router.push('/sign-in');
     },
     viewBook(bookId) {
-      // Menavigasi ke halaman DetailBook dengan ID
       this.$router.push({ name: 'DetailBook', params: { id: bookId } });
     },
   },

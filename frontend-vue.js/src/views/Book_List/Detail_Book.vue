@@ -53,8 +53,8 @@ export default {
     };
   },
   methods: {
-    borrowBook(bookId) {
-      alert(`You have borrowed the book with ID: ${bookId}`);
+    borrowBook() {
+      this.$router.push('/sign-in');
       // Lakukan proses peminjaman buku, misalnya update stok di backend
     },
     goBackToBookList() {
