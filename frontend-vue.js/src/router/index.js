@@ -96,7 +96,17 @@ const routes = [
     name:'EditProfileUser',
     component:() => import('../views/Dashboard_User/Profile_user/EditProfile.vue')
   },
-
+  {
+    path:'/user-dashboard/book-list-user',
+    name:'BookListUser',
+    component:() => import('../views/Dashboard_User/Book_List/BookListUser.vue'),
+  },
+  {
+    path:'/user-dashboard/book-list-user/view-book/:id',
+    name:'ViewBookUser',
+    component:() => import('../views/Dashboard_User/Book_List/ViewBookUser.vue'),
+  },
+  
   /**user */
 
 

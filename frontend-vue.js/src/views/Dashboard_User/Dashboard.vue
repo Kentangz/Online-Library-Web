@@ -12,7 +12,7 @@
     <div class="row">
       <!-- Booklist Section -->
       <div class="col-md-6 col-lg-3 mb-4">
-        <div class="card shadow-custom" @click="navigateTo('/user/booklist')">
+        <div class="card shadow-custom" @click="navigateTo('/user-dashboard/book-list-user')">
           <div class="card-body text-center">
             <i class="fas fa-book fa-3x mb-3"></i> <!-- Ikon buku -->
             <h5 class="card-title">Book List</h5>
