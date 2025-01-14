@@ -180,7 +180,7 @@
       },
       borrowBook(bookId) {
         this.isBorrowClicked = true;
-        alert(`Borrow Book ID: ${bookId}`);
+        this.$router.push({ name: 'BorrowBookUser', params: { id: bookId } });
         setTimeout(() => {
           this.isBorrowClicked = false;
         }, 300);

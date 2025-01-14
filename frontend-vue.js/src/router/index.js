@@ -106,6 +106,17 @@ const routes = [
     name:'ViewBookUser',
     component:() => import('../views/Dashboard_User/Book_List/ViewBookUser.vue'),
   },
+  {
+    path: '/user-dashboard/book-list-user/borrow-book/:id',
+    name: 'BorrowBookUser',
+    component: () => import('../views/Dashboard_User/Book_List/BorrowBookUser.vue'),
+  },
+  
+  {
+    path:'/user-dashboard/transaction-user',
+    name:'UserTransaction',
+    component:() => import('../views/Dashboard_User/Transaction.vue'),
+  },
   
   /**user */
 

@@ -56,32 +56,38 @@ export default {
     async handleSignIn() {
       this.isLoading = true;
       try {
+        // Try to login as user
+        const userResponse = await api.post('/user/login', {
+          email: this.email,
+          password: this.password,
+        });
+
+        // If successful login for user
+        const userId = userResponse.data.data.id_user;
+        localStorage.setItem('user_id', userId);  // Store user ID
+        this.$router.push('/user-dashboard'); // Redirect to user dashboard
+
+      } catch (userError) {
+        // Try to login as admin if user login fails
         try {
-          const userResponse = await api.post('/user/login', {
+          const adminResponse = await api.post('/admin/login', {
             email: this.email,
             password: this.password,
           });
-          const userId = userResponse.data.data.id_user;
-          localStorage.setItem('user_id', userId);
-          this.$router.push('/user-dashboard');
-        } catch (userError) {
-          try {
-            const adminResponse = await api.post('/admin/login', {
-              email: this.email,
-              password: this.password,
-            });
-            const adminId = adminResponse.data.data.id;
-            localStorage.setItem('admin_id', adminId);
-            this.$router.push('/dashboard-admin');
-          } catch (adminError) {
-            throw new Error('Invalid email or password.');
-          }
+
+          // If successful login for admin
+          const adminId = adminResponse.data.data.id;
+          localStorage.setItem('admin_id', adminId); // Store admin ID
+          this.$router.push('/dashboard-admin'); // Redirect to admin dashboard
+
+        } catch (adminError) {
+          // If both user and admin login fail, show an error
+          console.error('Sign In Failed:', adminError);
+          alert('Invalid email or password.');
         }
-      } catch (error) {
-        console.error('Sign In Failed', error);
-        alert('Invalid email or password.');
-      } finally {
-        this.isLoading = false;
+      }
+      finally {
+        this.isLoading = false; // Stop loading indicator
       }
     },
   },

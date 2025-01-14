@@ -23,7 +23,7 @@
 
       <!-- Transactions Section -->
       <div class="col-md-6 col-lg-3 mb-4">
-        <div class="card shadow-custom" @click="navigateTo('/user/transactions')">
+        <div class="card shadow-custom" @click="navigateTo('/user-dashboard/transaction-user')">
           <div class="card-body text-center">
             <i class="fas fa-exchange-alt fa-3x mb-3"></i> <!-- Ikon transaksi -->
             <h5 class="card-title">Transactions</h5>
