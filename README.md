@@ -1,4 +1,3 @@
-Here’s a more engaging version of your `README.md` in English:
 
 ---
 
