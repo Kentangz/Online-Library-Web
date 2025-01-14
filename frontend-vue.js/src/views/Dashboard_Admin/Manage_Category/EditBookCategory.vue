@@ -71,10 +71,10 @@ export default {
       try {
         await api.put(`/category/${this.$route.params.id}`, this.form);
         alert("Kategori berhasil diperbarui!");
-        this.$router.push("/dashboard-admin/category-list");
       } catch (error) {
         console.error("Error updating category:", error);
-      }
+      }        this.$router.push("/dashboard-admin/category-list");
+
     },
   },
   mounted() {

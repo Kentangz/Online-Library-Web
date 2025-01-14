@@ -77,6 +77,16 @@ const routes = [
     component: () => import('../views/Dashboard_Admin/Manage_Transaction/Transaction.vue'),
   },
   {
+    path: '/dashboard-admin/transaction/add-transaction',
+    name: 'AddTransactionAdmin',
+    component: () => import('../views/Dashboard_Admin/Manage_Transaction/AddTransaction.vue'),
+  },
+  {
+    path: '/dashboard-admin/transaction/edit-transaction',
+    name: 'EditTransactionAdmin',
+    component: () => import('../views/Dashboard_Admin/Manage_Transaction/EditTransaction.vue'),
+  },
+  {
     path: '/dashboard-admin/fine',
     name: 'FineAdmin',
     component: () => import('../views/Dashboard_Admin/fine.vue'),

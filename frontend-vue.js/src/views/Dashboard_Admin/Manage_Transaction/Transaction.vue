@@ -202,7 +202,7 @@ export default {
       return user ? user.nama : "Unknown User";
     },
     addTransaction() {
-      this.$router.push("/admin/transaction/add");
+      this.$router.push({ name: 'AddTransactionAdmin'});
     },
     editTransaction(transactionId) {
       this.$router.push(`/admin/transaction/edit/${transactionId}`);
