@@ -17,6 +17,8 @@ const routes = [
     name: 'SignUp',
     component: () => import('../views/SignUp.vue'),
   },
+  /**home */
+
 
 
   /**book list */
@@ -30,6 +32,7 @@ const routes = [
     name: 'DetailBook',
     component: () => import('../views/Book_List/Detail_Book.vue'),
   },
+  /**book-list */
   
 
   /**admin */
@@ -48,7 +51,6 @@ const routes = [
     name: 'AddBookAdmin',
     component: () => import('../views/Dashboard_Admin/Manage_Book/AddBook.vue'),
   },
-
   {
     path: '/dashboard-admin/book-list/edit-book/:id',
     name: 'EditBookAdmin',
@@ -79,14 +81,24 @@ const routes = [
     name: 'FineAdmin',
     component: () => import('../views/Dashboard_Admin/fine.vue'),
   },
+  /**admin */
+
 
   
   /**user */
   {
     path:'/user-dashboard',
-    name:'ProfileUser',
-    component:() => import('../views/Dashboard_User/Profile_User.vue')
+    name:'DashboardUser',
+    component:() => import('../views/Dashboard_User/Dashboard.vue')
   },
+  {
+    path:'/user-dashboard/edit-profile/:id',
+    name:'EditProfileUser',
+    component:() => import('../views/Dashboard_User/Profile_user/EditProfile.vue')
+  },
+
+  /**user */
+
 
 
   /**useful links */
@@ -100,6 +112,7 @@ const routes = [
     name: 'FaQ',
     component: () => import('../views/UsefulLinks/FaQ.vue'),
   },
+  /**useful links */
 ];
 
 const router = createRouter({
