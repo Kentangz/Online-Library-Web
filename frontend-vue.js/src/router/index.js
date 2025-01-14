@@ -92,14 +92,14 @@ const routes = [
     component: () => import('../views/Dashboard_Admin/Manage_Fine/Fine.vue'),
   },
   {
-    path: '/dashboard-admin/fine',
+    path: '/dashboard-admin/fine/add-fine',
     name: 'AddFineAdmin',
-    component: () => import('../views/Dashboard_Admin/Manage_Fine/Fine.vue'),
+    component: () => import('../views/Dashboard_Admin/Manage_Fine/AddFine.vue'),
   },
   {
-    path: '/dashboard-admin/fine',
+    path: '/dashboard-admin/fine/edit-fine/:id',
     name: 'EditFineAdmin',
-    component: () => import('../views/Dashboard_Admin/Manage_Fine/Fine.vue'),
+    component: () => import('../views/Dashboard_Admin/Manage_Fine/EditFine.vue'),
   },
   /**admin */
 

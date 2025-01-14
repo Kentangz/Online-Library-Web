@@ -123,7 +123,7 @@
 import api from "../../../api";
 
 export default {
-  name: "ManageFines",
+  name: "FineAdmin",
   data() {
     return {
       fines: [], // Array to store fines
@@ -282,7 +282,7 @@ export default {
 
     // Handle the action of adding a fine
     addFine() {
-      this.$router.push({ name: "AddFine" });
+      this.$router.push({ name: "AddFineAdmin" });
     },
 
     // Go back to the previous page
