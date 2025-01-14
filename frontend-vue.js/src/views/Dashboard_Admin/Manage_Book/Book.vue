@@ -1,131 +1,110 @@
 <template>
-  <div>
-    <h3>Your Fines</h3>
-
-    <!-- Error Message -->
-    <div v-if="errorMessage" class="alert alert-danger">
-      {{ errorMessage }}
+  <div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h1 class="text-center">Manage Books</h1>
+      <!-- Tombol Back -->
+      <router-link to="/dashboard-admin" class="btn btn-secondary">Kembali</router-link>
     </div>
 
-    <!-- Success Message -->
-    <div v-if="successMessage" class="alert alert-success">
-      {{ successMessage }}
+    <!-- Tombol navigasi untuk menambah buku -->
+    <router-link to="/dashboard-admin/book-list/add-book" class="btn btn-primary mb-3">Tambah Buku</router-link>
+
+    <div v-if="loading" class="text-center">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
     </div>
 
-    <!-- Fines Table -->
-    <div v-if="fines.length > 0">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">Book ID</th>
-            <th scope="col">Book Title</th>
-            <th scope="col">Fine Amount</th>
-            <th scope="col">Fine Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="fine in fines" :key="fine.id_denda">
-            <td>{{ fine.id_buku }}</td> <!-- Menampilkan ID Buku -->
-            <td>{{ fine.bookTitle }}</td> <!-- Menampilkan Judul Buku -->
-            <td>{{ fine.jumlah_denda | currency }}</td>
-            <td>{{ fine.status_denda }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div v-else>
-      <p>No fines found.</p>
-    </div>
+    <!-- Tabel buku -->
+    <table v-else class="table table-striped table-hover">
+      <thead class="table-success">
+        <tr>
+          <th>#</th>
+          <th>Gambar</th>
+          <th>Judul</th>
+          <th>Kategori</th>
+          <th>Penulis</th>
+          <th>Penerbit</th>
+          <th>Stok</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(book, index) in paginatedBooks" :key="book.id_buku">
+          <td>{{ index + 1 + (currentPage - 1) * perPage }}</td>
+          <td>
+            <img
+              :src="book.image"
+              alt="Book Image"
+              class="img-thumbnail"
+              style="width: 100px; height: 150px; object-fit: cover;"
+            />
+          </td>
+          <td>{{ book.judul }}</td>
+          <td>{{ getCategoryName(book.kategori) }}</td>
+          <td>{{ book.penulis }}</td>
+          <td>{{ book.penerbit }}</td>
+          <td>{{ book.stok }}</td>
+          <td>
+            <!-- Tombol Edit -->
+            <router-link :to="`/dashboard-admin/book-list/edit-book/${book.id_buku}`" class="btn btn-warning btn-sm me-2">
+              Edit
+            </router-link>
 
-    <!-- Back Button -->
-    <button class="btn btn-secondary" @click="goBack">Back</button>
+            <!-- Tombol Hapus -->
+            <button class="btn btn-danger btn-sm" @click="deleteBook(book.id_buku)">Hapus</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <nav v-if="totalPages > 1" aria-label="Page navigation">
+      <ul class="pagination justify-content-center">
+        <li class="page-item" :class="{ disabled: currentPage === 1 }">
+          <button class="page-link" @click="currentPage--" :disabled="currentPage === 1">Previous</button>
+        </li>
+        <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: currentPage === page }">
+          <button class="page-link" @click="currentPage = page">{{ page }}</button>
+        </li>
+        <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+          <button class="page-link" @click="currentPage++" :disabled="currentPage === totalPages">Next</button>
+        </li>
+      </ul>
+    </nav>
   </div>
 </template>
 
 <script>
-import api from "../../../api"; // Pastikan path ke API sudah benar
+import api from "../../../api";
 
 export default {
-  name: "UserFines",
   data() {
     return {
-      fines: [], // Array untuk menyimpan data denda
-      books: [], // Array untuk menyimpan data buku
-      errorMessage: "", // Menyimpan pesan error
-      successMessage: "", // Menyimpan pesan sukses
-      loading: false, // Variabel untuk status loading
+      books: [],
+      loading: false,
+      currentPage: 1,
+      perPage: 10, // Jumlah buku per halaman
     };
   },
-  mounted() {
-    this.fetchUserFines(); // Panggil fungsi untuk mengambil data denda saat komponen dimuat
-    this.fetchBooks(); // Panggil fungsi untuk mengambil semua data buku
+  computed: {
+    // Buku yang ditampilkan pada halaman saat ini
+    paginatedBooks() {
+      const start = (this.currentPage - 1) * this.perPage;
+      const end = start + this.perPage;
+      return this.books.slice(start, end);
+    },
+    // Total halaman
+    totalPages() {
+      return Math.ceil(this.books.length / this.perPage);
+    },
   },
   methods: {
-    // Fungsi untuk mengambil seluruh denda dan memfilter berdasarkan user_id
-    async fetchUserFines() {
-      const userId = localStorage.getItem("user_id"); // Ambil user_id dari localStorage
-
-      if (!userId) {
-        this.errorMessage = "User not logged in. Please login first.";
-        return;
-      }
-
-      try {
-        // Ambil seluruh data denda
-        const finesResponse = await api.get("/fine");
-        const transactionsResponse = await api.get("/transaction");
-
-        if (
-          finesResponse &&
-          finesResponse.data &&
-          Array.isArray(finesResponse.data.data) &&
-          transactionsResponse &&
-          transactionsResponse.data &&
-          Array.isArray(transactionsResponse.data.data)
-        ) {
-          // Filter transaksi berdasarkan id_user yang sama dengan userId dan status transaksi "telat"
-          const userTransactions = transactionsResponse.data.data.filter(
-            (transaction) =>
-              transaction.id_user === parseInt(userId) && transaction.status === "telat"
-          );
-
-          // Filter denda yang terkait dengan transaksi yang terlambat
-          this.fines = finesResponse.data.data
-            .filter((fine) =>
-              userTransactions.some(
-                (transaction) => transaction.id_transaksi === fine.id_transaksi
-              )
-            )
-            .map((fine) => {
-              // Cari nama buku berdasarkan id_buku untuk setiap transaksi yang terkait dengan denda
-              const relatedBook = this.books.find(
-                (book) => book.id_buku === fine.id_buku
-              );
-              return {
-                ...fine,
-                bookTitle: relatedBook ? relatedBook.judul : "Unknown Book",
-              };
-            });
-
-          if (this.fines.length === 0) {
-            this.errorMessage = "No fines found.";
-          } else {
-            this.successMessage = "Fines loaded successfully.";
-          }
-        } else {
-          throw new Error("Invalid response structure or data not found.");
-        }
-      } catch (error) {
-        console.error("Error fetching fines:", error);
-        this.errorMessage = "Failed to load fines. Please try again.";
-      }
-    },
-
-    // Fungsi untuk mengambil semua data buku menggunakan map
+    // Ambil data buku dan urutkan berdasarkan updated_at
     async fetchBooks() {
       this.loading = true;
       try {
-        const response = await api.get("/book"); // Ambil seluruh data buku
+        const response = await api.get("/book");
         if (response.data && Array.isArray(response.data)) {
           // Mapping data buku dan sorting berdasarkan updated_at
           this.books = response.data
@@ -147,31 +126,35 @@ export default {
       }
     },
 
-    // Fungsi untuk kembali ke halaman sebelumnya
-    goBack() {
-      this.$router.go(-1);
+    // Mendapatkan nama kategori
+    getCategoryName(category) {
+      return category ? category : "Unknown";
     },
+
+    // Menghapus buku
+    async deleteBook(id) {
+      if (confirm("Apakah Anda yakin ingin menghapus buku ini?")) {
+        try {
+          await api.delete(`/book/${id}`);
+          this.fetchBooks(); // Memperbarui daftar buku setelah penghapusan
+        } catch (error) {
+          console.error("Error deleting book:", error);
+        }
+      }
+    },
+  },
+  mounted() {
+    this.fetchBooks(); // Mengambil data buku saat halaman dimuat
   },
 };
 </script>
 
 <style scoped>
-/* Anda bisa menyesuaikan gaya CSS ini sesuai kebutuhan */
-.alert {
-  text-align: center;
+.table img {
+  border-radius: 4px;
 }
-
-table {
-  width: 100%;
-  margin-top: 20px;
-}
-
-table th,
-table td {
-  text-align: center;
-}
-
-button {
-  margin-top: 20px;
+.page-item.active .page-link {
+  background-color: #28a745;
+  border-color: #28a745;
 }
 </style>

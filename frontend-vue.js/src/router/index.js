@@ -74,7 +74,7 @@ const routes = [
   {
     path: '/dashboard-admin/transaction',
     name: 'TransactionAdmin',
-    component: () => import('../views/Dashboard_Admin/Transaction.vue'),
+    component: () => import('../views/Dashboard_Admin/Manage_Transaction/Transaction.vue'),
   },
   {
     path: '/dashboard-admin/fine',
