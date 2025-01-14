@@ -34,7 +34,7 @@
 
       <!-- Fines Section -->
       <div class="col-md-6 col-lg-3 mb-4">
-        <div class="card shadow-custom" @click="navigateTo('/user/fines')">
+        <div class="card shadow-custom" @click="navigateTo('/user-dashboard/fine-user')">
           <div class="card-body text-center">
             <i class="fas fa-money-bill-wave fa-3x mb-3"></i> <!-- Ikon denda -->
             <h5 class="card-title">Fines</h5>

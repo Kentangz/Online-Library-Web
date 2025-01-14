@@ -111,11 +111,15 @@ const routes = [
     name: 'BorrowBookUser',
     component: () => import('../views/Dashboard_User/Book_List/BorrowBookUser.vue'),
   },
-  
   {
     path:'/user-dashboard/transaction-user',
     name:'UserTransaction',
     component:() => import('../views/Dashboard_User/Transaction.vue'),
+  },
+  {
+    path:'/user-dashboard/fine-user',
+    name:'UserFine',
+    component:() => import('../views/Dashboard_User/Fines.vue'),
   },
   
   /**user */
