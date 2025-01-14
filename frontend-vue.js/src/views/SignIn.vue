@@ -25,11 +25,15 @@
             />
           </div>
           <div class="d-grid gap-2">
-            <button type="submit" class="btn btn-primary">Sign In</button>
+            <button type="submit" class="btn btn-primary" :disabled="isLoading">
+              <span v-if="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              <span v-else>Sign In</span>
+            </button>
           </div>
         </form>
         <div class="text-center mt-3">
-          <p>Don't have an account? <a href="/sign-up">Sign Up</a></p>
+          <p v-if="isLoading">Loading...</p>
+          <p v-else>Don't have an account? <a href="/sign-up">Sign Up</a></p>
         </div>
       </div>
     </div>
@@ -37,36 +41,50 @@
 </template>
 
 <script>
-import Api from '../api'; // Import API service
+import api from '../api';
 
 export default {
   name: 'SignIn',
   data() {
     return {
       email: '',
-      password: ''
+      password: '',
+      isLoading: false,
     };
   },
   methods: {
     async handleSignIn() {
+      this.isLoading = true;
       try {
-        const response = await Api.post('/admin/login', {
-          email: this.email,
-          password: this.password
-        });
-
-        // Simpan admin_id di localStorage
-        const adminId = response.data.data.id; // Sesuaikan struktur respons API
-        localStorage.setItem('admin_id', adminId);
-
-        // Redirect ke halaman profil admin
-        this.$router.push('/dashboard-admin');
+        try {
+          const userResponse = await api.post('/user/login', {
+            email: this.email,
+            password: this.password,
+          });
+          const userId = userResponse.data.data.id_user;
+          localStorage.setItem('user_id', userId);
+          this.$router.push('/user-dashboard');
+        } catch (userError) {
+          try {
+            const adminResponse = await api.post('/admin/login', {
+              email: this.email,
+              password: this.password,
+            });
+            const adminId = adminResponse.data.data.id;
+            localStorage.setItem('admin_id', adminId);
+            this.$router.push('/dashboard-admin');
+          } catch (adminError) {
+            throw new Error('Invalid email or password.');
+          }
+        }
       } catch (error) {
         console.error('Sign In Failed', error);
         alert('Invalid email or password.');
+      } finally {
+        this.isLoading = false;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -91,5 +109,9 @@ export default {
 h3 {
   font-size: 1.5rem;
   color: #333;
+}
+
+.spinner-border {
+  margin-right: 0.5rem;
 }
 </style>
