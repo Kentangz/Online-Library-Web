@@ -54,7 +54,7 @@ export default {
   }
   .benefit-icon {
     width: 60px;
-    height: auto;
+    height: 60px;
     margin-bottom: 1rem;
   }
   .benefit-title {

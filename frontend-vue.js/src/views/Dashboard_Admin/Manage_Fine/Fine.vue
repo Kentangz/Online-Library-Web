@@ -7,10 +7,7 @@
       {{ errorMessage }}
     </div>
 
-    <!-- Success Message -->
-    <div v-if="successMessage" class="alert alert-success">
-      {{ successMessage }}
-    </div>
+
 
     <!-- Add Fine and Back Buttons (Moved above the table) -->
     <div class="text-center mb-4">
@@ -38,6 +35,7 @@
         <thead>
           <tr>
             <th scope="col">Fine ID</th>
+            <th scope="col">Transaction ID</th> 
             <th scope="col">User ID</th>
             <th scope="col">User Name</th>
             <th scope="col">Book ID</th>
@@ -50,6 +48,7 @@
         <tbody>
           <tr v-for="fine in paginatedFines" :key="fine.id_denda">
             <td>{{ fine.id_denda }}</td>
+            <td>{{ fine.id_transaksi }}</td> <!-- Display Transaction ID -->
             <td>{{ fine.id_user }}</td> <!-- Menampilkan ID User -->
             <td>{{ fine.userName }}</td>
             <td>{{ fine.id_buku }}</td> <!-- Menampilkan ID Buku -->
@@ -263,7 +262,7 @@ export default {
 
     // Handle the action of editing a fine
     editFine(fineId) {
-      this.$router.push({ name: "EditFine", params: { id: fineId } });
+      this.$router.push({ name: "EditFineAdmin", params: { id: fineId } });
     },
 
     // Handle the action of deleting a fine
