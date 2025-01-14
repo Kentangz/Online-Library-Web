@@ -205,7 +205,7 @@ export default {
       this.$router.push({ name: 'AddTransactionAdmin'});
     },
     editTransaction(transactionId) {
-      this.$router.push(`/admin/transaction/edit/${transactionId}`);
+      this.$router.push({ name: 'AddTransactionAdmin', params: { id: transactionId } });
     },
     async deleteTransaction(transactionId) {
       if (confirm("Are you sure you want to delete this transaction?")) {

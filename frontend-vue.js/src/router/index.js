@@ -82,7 +82,7 @@ const routes = [
     component: () => import('../views/Dashboard_Admin/Manage_Transaction/AddTransaction.vue'),
   },
   {
-    path: '/dashboard-admin/transaction/edit-transaction',
+    path: '/dashboard-admin/transaction/edit-transaction/:id',
     name: 'EditTransactionAdmin',
     component: () => import('../views/Dashboard_Admin/Manage_Transaction/EditTransaction.vue'),
   },
