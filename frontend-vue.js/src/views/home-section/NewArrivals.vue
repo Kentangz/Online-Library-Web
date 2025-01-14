@@ -46,7 +46,7 @@ export default {
 
           // Sorting buku berdasarkan 'updated_at' (terbaru di atas)
           const sortedBooks = books.sort((a, b) => {
-            return new Date(b.updated_at) - new Date(a.updated_at);
+            return new Date(b.created_at) - new Date(a.created_at);
           });
 
           // Ambil hanya 3 buku terbaru
